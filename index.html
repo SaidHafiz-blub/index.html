@@ -67,13 +67,14 @@
     .sec-label { font-size: 15px; font-weight: 800; margin: 26px 0 14px; display: flex; align-items: center; gap: 10px; }
     .card { background: #fff; padding: 20px; border-radius: 24px; box-shadow: var(--shadow); margin-bottom: 16px; }
 
-    /* Milestone Styles dengan Goal Label */
-    .ms-item { display: flex; align-items: center; justify-content: space-between; background: #fff; padding: 18px; border-radius: 22px; margin-bottom: 12px; box-shadow: var(--shadow); }
+    /* Milestone Styles */
+    .ms-item { display: flex; align-items: center; justify-content: space-between; background: #fff; padding: 18px; border-radius: 22px; margin-bottom: 12px; box-shadow: var(--shadow); border: 1px solid transparent; }
     .ms-left { display: flex; align-items: center; gap: 15px; }
     .ms-icon-wrap { width: 46px; height: 46px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 22px; }
     .ms-goal-badge { background: var(--secondary); color: white; font-size: 10px; font-weight: 800; padding: 4px 10px; border-radius: 50px; text-transform: uppercase; }
     .ms-done { border: 1px solid #E1F5EE; } .ms-done .ms-icon-wrap { background: var(--secondary); color: #fff; }
     .ms-locked { opacity: 0.6; background: #F9FAFB; } .ms-locked .ms-icon-wrap { background: #E2E8F0; color: #A0AEC0; }
+    .ms-current { border: 2px solid var(--primary); }
     
     .p-row { display: flex; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid #F1F5F9; }
     input { width: 100%; padding: 14px; border: 1px solid #E2E8F0; border-radius: 14px; font-size: 14px; background: #F8FAFC; margin-bottom: 15px; font-weight: 600; }
@@ -139,7 +140,7 @@
   </div>
 
   <div id="tab-milestone" class="tab-content">
-    <div class="sec-label"><i class='bx bx-flag'></i> Roadmap Masa Depan</div>
+    <div class="sec-label"><i class='bx bx-flag'></i> Roadmap Masa Depan (Tiap Tahun)</div>
     <div id="milestone-container"></div>
   </div>
 
@@ -176,11 +177,25 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
+  // DATA MILESTONE SETIAP TAHUN 23-40
   const MILESTONES = [
     { a: 23, l: 20, al: { BMRI: 60, BBRI: 40, TLKM: 0, BBCA: 0 } },
     { a: 24, l: 40, al: { BMRI: 60, BBRI: 40, TLKM: 0, BBCA: 0 } },
     { a: 25, l: 70, al: { BMRI: 55, BBRI: 45, TLKM: 0, BBCA: 0 } },
+    { a: 26, l: 136, al: { BMRI: 55, BBRI: 45, TLKM: 0, BBCA: 0 } },
+    { a: 27, l: 202, al: { BMRI: 55, BBRI: 45, TLKM: 0, BBCA: 0 } },
+    { a: 28, l: 268, al: { BMRI: 55, BBRI: 45, TLKM: 0, BBCA: 0 } },
+    { a: 29, l: 334, al: { BMRI: 55, BBRI: 45, TLKM: 0, BBCA: 0 } },
     { a: 30, l: 400, al: { BMRI: 40, BBRI: 35, TLKM: 15, BBCA: 10 } },
+    { a: 31, l: 510, al: { BMRI: 40, BBRI: 35, TLKM: 15, BBCA: 10 } },
+    { a: 32, l: 620, al: { BMRI: 40, BBRI: 35, TLKM: 15, BBCA: 10 } },
+    { a: 33, l: 730, al: { BMRI: 40, BBRI: 35, TLKM: 15, BBCA: 10 } },
+    { a: 34, l: 840, al: { BMRI: 40, BBRI: 35, TLKM: 15, BBCA: 10 } },
+    { a: 35, l: 950, al: { BMRI: 40, BBRI: 35, TLKM: 15, BBCA: 10 } },
+    { a: 36, l: 1060, al: { BMRI: 40, BBRI: 35, TLKM: 15, BBCA: 10 } },
+    { a: 37, l: 1170, al: { BMRI: 40, BBRI: 35, TLKM: 15, BBCA: 10 } },
+    { a: 38, l: 1280, al: { BMRI: 40, BBRI: 35, TLKM: 15, BBCA: 10 } },
+    { a: 39, l: 1390, al: { BMRI: 40, BBRI: 35, TLKM: 15, BBCA: 10 } },
     { a: 40, l: 1500, al: { BMRI: 30, BBRI: 25, TLKM: 35, BBCA: 10 } }
   ];
 
@@ -190,7 +205,8 @@
   function update() {
     const total = state.bmri + state.bbri + state.tlkm + state.bbca;
     const tgt = MILESTONES.find(m => m.a === state.age) || MILESTONES.find(m => m.a > state.age) || MILESTONES[0];
-    const prevTgt = (MILESTONES[MILESTONES.findIndex(m=>m.a===state.age)-1]?.l) || 0;
+    const prevIndex = MILESTONES.findIndex(m => m.a === state.age) - 1;
+    const prevTgt = prevIndex >= 0 ? MILESTONES[prevIndex].l : 0;
     
     document.getElementById('age-header').innerText = `Usia ${state.age} — Bulan ${state.month}`;
     document.getElementById('h-total').innerText = `${total} lot`;
@@ -209,16 +225,17 @@
   function renderMilestones(total) {
     let html = "";
     MILESTONES.forEach(m => {
-      // LOGIKA: Jika total aset >= target milestone, tampilkan label GOAL
       const isAchieved = total >= m.l;
       const isPastAge = state.age > m.a;
+      const isCurrent = state.age === m.a;
       
       html += `
-        <div class="ms-item ${isAchieved || isPastAge ? 'ms-done' : 'ms-locked'}">
+        <div class="ms-item ${isAchieved || isPastAge ? 'ms-done' : 'ms-locked'} ${isCurrent ? 'ms-current' : ''}">
           <div class="ms-left">
             <div class="ms-icon-wrap"><i class='bx ${isAchieved ? 'bx-check-double' : (isPastAge ? 'bx-history' : 'bx-lock-alt')}'></i></div>
             <div class="ms-content">
               <div style="font-size:14px; font-weight:700">Usia ${m.a} - ${m.l} Lot</div>
+              <div style="font-size:10px; opacity:0.6">${isCurrent ? 'Tahun Berjalan' : ''}</div>
             </div>
           </div>
           ${isAchieved ? '<div class="ms-goal-badge">Goal</div>' : ''}

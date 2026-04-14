@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>RetirePath - Smart Tracker</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  
+  <style>
+    :root {
+      --primary: #534AB7;
+      --primary-gradient: linear-gradient(135deg, #6366f1 0%, #534AB7 100%);
+      --secondary: #1D9E75;
+      --bg: #F4F7FE;
+      --text: #1B1B1B;
+      --text-muted: #718096;
+      --card: #FFFFFF;
+      --shadow: 0 10px 20px rgba(0,0,0,0.04);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+    body { background-color: var(--bg); color: var(--text); padding-bottom: 110px; overflow-x: hidden; }
+    .app { max-width: 500px; margin: 0 auto; padding: 16px; }
+
+    /* Header */
+    .topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+    .logo { font-size: 20px; font-weight: 800; color: var(--primary); display: flex; align-items: center; gap: 8px; }
+    .logo span { color: var(--secondary); }
+    .age-pill { background: #fff; color: var(--primary); font-size: 11px; font-weight: 700; padding: 6px 14px; border-radius: 50px; border: 1px solid #E2E8F0; }
+
+    /* Dashboard Hero */
+    .hero-card { 
+      background: var(--primary-gradient); 
+      border-radius: 24px; padding: 24px; color: white; margin-bottom: 16px; 
+      box-shadow: 0 15px 30px rgba(83, 74, 183, 0.25);
+    }
+    .hero-label { font-size: 13px; opacity: 0.8; margin-bottom: 4px; font-weight: 500; }
+    .hero-val { font-size: 42px; font-weight: 800; margin-bottom: 10px; }
+    .hero-sub { font-size: 11px; background: rgba(255,255,255,0.2); padding: 8px 14px; border-radius: 12px; display: inline-block; font-weight: 600; }
+
+    /* Motivasi */
+    .moto-box { 
+      background: #fff; padding: 14px 18px; border-radius: 18px; margin-bottom: 20px;
+      display: flex; align-items: center; gap: 12px; border-left: 5px solid var(--primary); box-shadow: var(--shadow);
+    }
+    .moto-box i { color: var(--primary); font-size: 22px; }
+    #moto-text { font-size: 12px; font-weight: 600; color: var(--text); transition: opacity 0.5s; line-height: 1.4; }
+
+    /* Grid Stats */
+    .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
+    .stat-card { background: #fff; padding: 16px 8px; border-radius: 20px; text-align: center; box-shadow: var(--shadow); }
+    .stat-label { font-size: 10px; color: var(--text-muted); font-weight: 700; text-transform: uppercase; margin-bottom: 6px; }
+    .stat-val { font-size: 18px; font-weight: 800; color: var(--primary); }
+
+    /* Sections */
+    .sec-label { font-size: 15px; font-weight: 800; margin: 26px 0 14px; display: flex; align-items: center; gap: 10px; }
+    .card { background: #fff; padding: 20px; border-radius: 24px; box-shadow: var(--shadow); margin-bottom: 16px; }
+
+    /* Milestone List */
+    .ms-item { display: flex; align-items: center; gap: 15px; background: #fff; padding: 18px; border-radius: 22px; margin-bottom: 12px; transition: 0.3s; box-shadow: var(--shadow); }
+    .ms-icon-wrap { width: 46px; height: 46px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 22px; }
+    .ms-done { background: #fff; border: 1px solid #E1F5EE; } .ms-done .ms-icon-wrap { background: var(--secondary); color: #fff; }
+    .ms-locked { opacity: 0.6; background: #F9FAFB; } .ms-locked .ms-icon-wrap { background: #E2E8F0; color: #A0AEC0; }
+    .ms-title { font-size: 14px; font-weight: 700; margin-bottom: 3px; }
+    .ms-meta { font-size: 11px; color: var(--text-muted); font-weight: 500; }
+
+    /* Profile List */
+    .p-row { display: flex; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid #F1F5F9; }
+    .p-row:last-child { border: none; }
+    .p-label { color: var(--text-muted); font-size: 13px; font-weight: 500; }
+    .p-val { font-weight: 700; font-size: 14px; color: var(--primary); }
+
+    /* Form Inputs */
+    .input-group label { display: block; font-size: 11px; font-weight: 800; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+    input { width: 100%; padding: 14px; border: 1px solid #E2E8F0; border-radius: 14px; font-size: 14px; background: #F8FAFC; margin-bottom: 15px; font-weight: 600; }
+    input:focus { border-color: var(--primary); outline: none; background: #fff; }
+    .btn-save { width: 100%; background: var(--primary); color: white; padding: 18px; border-radius: 18px; border: none; font-weight: 800; cursor: pointer; box-shadow: 0 8px 20px rgba(83, 74, 183, 0.3); }
+
+    /* Popup */
+    #popup { 
+      position: fixed; top: 25px; left: 50%; transform: translateX(-50%) translateY(-100px);
+      background: var(--secondary); color: white; padding: 14px 28px; border-radius: 50px; 
+      font-weight: 700; font-size: 14px; transition: 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      z-index: 10000; box-shadow: 0 10px 25px rgba(29, 158, 117, 0.3);
+    }
+    #popup.show { transform: translateX(-50%) translateY(0); }
+
+    /* Navbar */
+    .navbar { position: fixed; bottom: 20px; left: 20px; right: 20px; background: rgba(255,255,255,0.9); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 12px; border-radius: 24px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); border: 1px solid rgba(255,255,255,0.5); }
+    .nav-btn { background: none; border: none; color: #A0AEC0; display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 10px; font-weight: 700; flex: 1; transition: 0.3s; }
+    .nav-btn i { font-size: 26px; }
+    .nav-btn.active { color: var(--primary); }
+
+    .tab-content { display: none; animation: fadeIn 0.4s ease; }
+    .tab-content.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    
+    .chart-box { width: 100%; height: 200px; margin: 10px 0; }
+  </style>
+</head>
+<body>
+
+<div id="popup"><i class='bx bxs-check-circle'></i> Data Berhasil Disimpan!</div>
+
+<div class="app">
+  <div class="topbar">
+    <div class="logo"><i class='bx bxs-layer'></i> Retire<span>Path</span></div>
+    <div id="age-header" class="age-pill">Usia 25 — Bulan 1</div>
+  </div>
+
+  <div id="tab-home" class="tab-content active">
+    <div class="hero-card">
+      <div class="hero-label">Total Aset Saat Ini</div>
+      <div class="hero-val" id="h-total">0 lot</div>
+      <div class="hero-sub" id="h-target-label">Target Akhir Usia 25: 70 lot</div>
+    </div>
+
+    <div class="moto-box">
+      <i class='bx bxs-quote-alt-left'></i>
+      <div id="moto-text">Memuat motivasi...</div>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-label">Target</div>
+        <div class="stat-val" id="s-target">70</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Progres</div>
+        <div class="stat-val" id="s-pct">0%</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Kurang</div>
+        <div class="stat-val" id="s-gap" style="color: #ef4444">0</div>
+      </div>
+    </div>
+
+    <div class="sec-label"><i class='bx bx-line-chart'></i> Progres Visual</div>
+    <div class="card">
+      <div class="chart-box"><canvas id="homeChart"></canvas></div>
+    </div>
+  </div>
+
+  <div id="tab-chart" class="tab-content">
+    <div class="sec-label"><i class='bx bx-bullseye'></i> Grafik Target (Ideal)</div>
+    <div class="card">
+      <div class="chart-box"><canvas id="targetChart"></canvas></div>
+    </div>
+    
+    <div class="sec-label"><i class='bx bx-line-chart-down'></i> Grafik Riil (Sekarang)</div>
+    <div class="card">
+      <div class="chart-box"><canvas id="realChart"></canvas></div>
+    </div>
+  </div>
+
+  <div id="tab-porto" class="tab-content">
+    <div class="sec-label"><i class='bx bx-pie-chart-alt'></i> Analisis Alokasi</div>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+      <div class="card" style="text-align:center; padding: 15px;"><div class="stat-label">Riil</div><div style="height:110px"><canvas id="pieReal"></canvas></div></div>
+      <div class="card" style="text-align:center; padding: 15px;"><div class="stat-label">Ideal</div><div style="height:110px"><canvas id="pieTarget"></canvas></div></div>
+    </div>
+    <div class="card" id="porto-list"></div>
+  </div>
+
+  <div id="tab-milestone" class="tab-content">
+    <div class="sec-label"><i class='bx bx-flag'></i> Roadmap Masa Depan</div>
+    <div id="milestone-container"></div>
+  </div>
+
+  <div id="tab-profile" class="tab-content">
+    <div class="sec-label"><i class='bx bx-user-circle'></i> Informasi Profil</div>
+    <div class="card">
+      <div class="p-row"><span class="p-label">Nama Akun</span> <span class="p-val">Investor Saham</span></div>
+      <div class="p-row"><span class="p-label">Usia Kejar</span> <span class="p-val" id="prof-age">25</span></div>
+      <div class="p-row"><span class="p-label">Total Akumulasi</span> <span class="p-val" id="prof-total">0 Lot</span></div>
+    </div>
+
+    <div class="sec-label"><i class='bx bx-edit'></i> Update Portofolio</div>
+    <div class="card">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+        <div class="input-group"><label>Usia</label><input type="number" id="i-age"></div>
+        <div class="input-group"><label>Bulan (1-12)</label><input type="number" id="i-month"></div>
+      </div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+        <div class="input-group"><label>BMRI</label><input type="number" id="i-bmri"></div>
+        <div class="input-group"><label>BBRI</label><input type="number" id="i-bbri"></div>
+        <div class="input-group"><label>TLKM</label><input type="number" id="i-tlkm"></div>
+        <div class="input-group"><label>BBCA</label><input type="number" id="i-bbca"></div>
+      </div>
+      <button class="btn-save" onclick="saveData()">Simpan Perubahan</button>
+    </div>
+  </div>
+
+  <nav class="navbar">
+    <button class="nav-btn active" onclick="switchTab('home', this)"><i class='bx bxs-grid-alt'></i>Beranda</button>
+    <button class="nav-btn" onclick="switchTab('chart', this)"><i class='bx bxs-chart'></i>Grafik</button>
+    <button class="nav-btn" onclick="switchTab('porto', this)"><i class='bx bxs-pie-chart-alt-2'></i>Porto</button>
+    <button class="nav-btn" onclick="switchTab('milestone', this)"><i class='bx bxs-flag-alt'></i>Target</button>
+    <button class="nav-btn" onclick="switchTab('profile', this)"><i class='bx bxs-user-circle'></i>Profil</button>
+  </nav>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+  const MOTIVASI = [
+    "Kekayaan bukan tentang berapa banyak uang yang kamu hasilkan, tapi berapa banyak yang kamu simpan.",
+    "Pasar saham adalah alat untuk mentransfer uang dari yang tidak sabar ke yang sabar.",
+    "Jangan menabung apa yang tersisa, tapi belanjakan apa yang tersisa setelah menabung.",
+    "Waktu terbaik untuk menanam pohon adalah 20 tahun lalu. Waktu terbaik kedua adalah sekarang.",
+    "Investasi pada pengetahuan memberikan bunga terbaik."
+  ];
+
+  const MILESTONES = [
+    { a: 23, l: 20, al: { BMRI: 60, BBRI: 40, TLKM: 0, BBCA: 0 } },
+    { a: 24, l: 40, al: { BMRI: 60, BBRI: 40, TLKM: 0, BBCA: 0 } },
+    { a: 25, l: 70, al: { BMRI: 55, BBRI: 45, TLKM: 0, BBCA: 0 } },
+    { a: 26, l: 110, al: { BMRI: 50, BBRI: 50, TLKM: 0, BBCA: 0 } },
+    { a: 27, l: 160, al: { BMRI: 45, BBRI: 45, TLKM: 10, BBCA: 0 } },
+    { a: 28, l: 220, al: { BMRI: 45, BBRI: 45, TLKM: 10, BBCA: 0 } },
+    { a: 29, l: 300, al: { BMRI: 40, BBRI: 40, TLKM: 15, BBCA: 5 } },
+    { a: 30, l: 400, al: { BMRI: 40, BBRI: 35, TLKM: 15, BBCA: 10 } },
+    { a: 40, l: 1500, al: { BMRI: 30, BBRI: 25, TLKM: 35, BBCA: 10 } }
+  ];
+
+  let state = JSON.parse(localStorage.getItem('retire_final')) || { age: 25, month: 1, bmri: 0, bbri: 0, tlkm: 0, bbca: 0 };
+  let charts = {};
+
+  function update() {
+    const total = state.bmri + state.bbri + state.tlkm + state.bbca;
+    const tgt = MILESTONES.find(m => m.a === state.age) || MILESTONES[0];
+    const prevTgt = (MILESTONES[MILESTONES.findIndex(m=>m.a===state.age)-1]?.l) || 0;
+    
+    document.getElementById('age-header').innerText = `Usia ${state.age} — Bulan ${state.month}`;
+    document.getElementById('h-total').innerText = `${total} lot`;
+    document.getElementById('h-target-label').innerText = `Target Akhir Usia ${state.age}: ${tgt.l} lot`;
+    document.getElementById('s-target').innerText = tgt.l;
+    document.getElementById('s-pct').innerText = Math.min(100, Math.round((total/tgt.l)*100)) + "%";
+    document.getElementById('s-gap').innerText = Math.max(0, tgt.l - total);
+    
+    document.getElementById('prof-age').innerText = state.age;
+    document.getElementById('prof-total').innerText = total + " Lot";
+
+    renderAllCharts(total, prevTgt, tgt);
+    renderMilestones(total, state.age);
+  }
+
+  function renderAllCharts(total, prev, tgt) {
+    const labels = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+    const targetData = Array.from({length:12}, (_,i)=> Math.round(prev+((tgt.l-prev)/12)*(i+1)));
+    const realData = Array.from({length:state.month}, ()=> total);
+
+    const chartOptions = { 
+      responsive: true, maintainAspectRatio: false, 
+      plugins: { legend: { display: false } },
+      scales: { y: { display: false }, x: { grid: { display: false } } }
+    };
+
+    // Home Chart (Combined)
+    if(charts.home) charts.home.destroy();
+    charts.home = new Chart(document.getElementById('homeChart'), {
+      type: 'line',
+      data: { labels, datasets: [
+        { label: 'Target', data: targetData, borderColor: '#534AB7', borderDash: [5,5], pointRadius: 0, fill: false },
+        { label: 'Riil', data: realData, borderColor: '#1D9E75', backgroundColor: 'rgba(29, 158, 117, 0.1)', fill: true, tension: 0.4 }
+      ]},
+      options: chartOptions
+    });
+
+    // Target Chart (Grafik Terpisah Atas)
+    if(charts.target) charts.target.destroy();
+    charts.target = new Chart(document.getElementById('targetChart'), {
+      type: 'line',
+      data: { labels, datasets: [{ data: targetData, borderColor: '#534AB7', backgroundColor: 'rgba(83, 74, 183, 0.1)', fill: true, tension: 0.4, pointRadius: 2 }]},
+      options: chartOptions
+    });
+
+    // Real Chart (Grafik Terpisah Bawah)
+    if(charts.real) charts.real.destroy();
+    charts.real = new Chart(document.getElementById('realChart'), {
+      type: 'line',
+      data: { labels, datasets: [{ data: realData, borderColor: '#1D9E75', backgroundColor: 'rgba(29, 158, 117, 0.1)', fill: true, tension: 0.4, pointRadius: 4 }]},
+      options: chartOptions
+    });
+
+    // Pies & List
+    const stocks = ['BMRI', 'BBRI', 'TLKM', 'BBCA'];
+    const colors = ['#534AB7', '#1D9E75', '#F59E0B', '#E53E3E'];
+    
+    if(charts.p1) charts.p1.destroy();
+    charts.p1 = new Chart(document.getElementById('pieReal'), { type: 'doughnut', data: { labels: stocks, datasets: [{ data: [state.bmri, state.bbri, state.tlkm, state.bbca], backgroundColor: colors }] }, options: { plugins: { legend: { display: false } }, cutout: '70%' }});
+
+    if(charts.p2) charts.p2.destroy();
+    charts.p2 = new Chart(document.getElementById('pieTarget'), { type: 'doughnut', data: { labels: stocks, datasets: [{ data: [tgt.al.BMRI, tgt.al.BBRI, tgt.al.TLKM, tgt.al.BBCA], backgroundColor: colors }] }, options: { plugins: { legend: { display: false } }, cutout: '70%' }});
+
+    let html = "";
+    stocks.forEach(s => html += `<div class="p-row"><span class="p-label">${s}</span> <span class="p-val">${state[s.toLowerCase()]} Lot (${tgt.al[s]}%)</span></div>`);
+    document.getElementById('porto-list').innerHTML = html;
+  }
+
+  function renderMilestones(total, currAge) {
+    let html = "";
+    MILESTONES.forEach(m => {
+      const isDone = total >= m.l || m.a < currAge;
+      html += `
+        <div class="ms-item ${isDone ? 'ms-done' : 'ms-locked'}">
+          <div class="ms-icon-wrap"><i class='bx ${isDone ? 'bx-check-double' : 'bx-lock-alt'}'></i></div>
+          <div class="ms-content">
+            <div class="ms-title">Usia ${m.a} - ${m.l} Lot</div>
+            <div class="ms-meta">BMRI ${m.al.BMRI}% • BBRI ${m.al.BBRI}%</div>
+          </div>
+          <div style="font-size: 10px; font-weight: 800; color: ${isDone ? 'var(--secondary)' : '#CBD5E0'}">${isDone ? 'TERCAPAI' : 'TERKUNCI'}</div>
+        </div>`;
+    });
+    document.getElementById('milestone-container').innerHTML = html;
+  }
+
+  function switchTab(id, btn) {
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.getElementById('tab-' + id).classList.add('active');
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    window.scrollTo(0,0);
+  }
+
+  function saveData() {
+    state = {
+      age: parseInt(document.getElementById('i-age').value) || 25,
+      month: parseInt(document.getElementById('i-month').value) || 1,
+      bmri: parseInt(document.getElementById('i-bmri').value) || 0,
+      bbri: parseInt(document.getElementById('i-bbri').value) || 0,
+      tlkm: parseInt(document.getElementById('i-tlkm').value) || 0,
+      bbca: parseInt(document.getElementById('i-bbca').value) || 0
+    };
+    localStorage.setItem('retire_final', JSON.stringify(state));
+    update();
+    const p = document.getElementById('popup');
+    p.classList.add('show');
+    setTimeout(() => p.classList.remove('show'), 3000);
+  }
+
+  let motoIdx = 0;
+  function rotateMoto() {
+    const el = document.getElementById('moto-text');
+    el.style.opacity = 0;
+    setTimeout(() => {
+      el.innerText = MOTIVASI[motoIdx];
+      el.style.opacity = 1;
+      motoIdx = (motoIdx + 1) % MOTIVASI.length;
+    }, 500);
+  }
+  setInterval(rotateMoto, 6000);
+  rotateMoto();
+
+  document.getElementById('i-age').value = state.age;
+  document.getElementById('i-month').value = state.month;
+  document.getElementById('i-bmri').value = state.bmri;
+  document.getElementById('i-bbri').value = state.bbri;
+  document.getElementById('i-tlkm').value = state.tlkm;
+  document.getElementById('i-bbca').value = state.bbca;
+  update();
+</script>
+</body>
+</html>

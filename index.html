@@ -31,21 +31,16 @@
     body { background-color: var(--bg); color: var(--text); padding-bottom: 110px; overflow-x: hidden; }
     .app { max-width: 500px; margin: 0 auto; padding: 16px; }
 
-    /* Topbar & Logo Grid */
+    /* Topbar & Logo */
     .topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
-    .brand { display: flex; align-items: center; gap: 10px; }
-    .logo-box { 
-      width: 30px; height: 30px; border-radius: 6px; overflow: hidden;
-      display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr;
-      box-shadow: 0 3px 8px rgba(0,0,0,0.1);
-    }
-    .l-red { background: #F44336; } .l-blue { background: #2196F3; }
-    .l-yellow { background: #FFEB3B; } .l-green { background: #4CAF50; }
+    .brand { display: flex; align-items: center; gap: 12px; }
+    /* Gaya untuk Ikon Gambar */
+    .app-logo { width: 32px; height: 32px; border-radius: 8px; object-fit: cover; }
     .logo-text { font-size: 20px; font-weight: 800; color: var(--primary); }
     .logo-text span { color: var(--secondary); }
     .age-pill { background: #fff; color: var(--primary); font-size: 11px; font-weight: 700; padding: 6px 14px; border-radius: 50px; border: 1px solid #E2E8F0; }
 
-    /* Dashboard Hero (Sesuai Gambar) */
+    /* Dashboard Hero */
     .hero-card { 
       background: var(--primary-gradient); 
       border-radius: 24px; padding: 24px; color: white; margin-bottom: 16px; 
@@ -69,7 +64,6 @@
     .stat-label { font-size: 10px; color: var(--text-muted); font-weight: 700; text-transform: uppercase; margin-bottom: 6px; }
     .stat-val { font-size: 18px; font-weight: 800; color: var(--primary); }
 
-    /* Sections & Cards */
     .sec-label { font-size: 15px; font-weight: 800; margin: 26px 0 14px; display: flex; align-items: center; gap: 10px; }
     .card { background: #fff; padding: 20px; border-radius: 24px; box-shadow: var(--shadow); margin-bottom: 16px; }
 
@@ -79,17 +73,14 @@
     .ms-done { border: 1px solid #E1F5EE; } .ms-done .ms-icon-wrap { background: var(--secondary); color: #fff; }
     .ms-locked { opacity: 0.6; background: #F9FAFB; } .ms-locked .ms-icon-wrap { background: #E2E8F0; color: #A0AEC0; }
     
-    /* Profile Row & Form */
     .p-row { display: flex; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid #F1F5F9; }
     .input-group label { display: block; font-size: 11px; font-weight: 800; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; }
     input { width: 100%; padding: 14px; border: 1px solid #E2E8F0; border-radius: 14px; font-size: 14px; background: #F8FAFC; margin-bottom: 15px; font-weight: 600; }
     .btn-save { width: 100%; background: var(--primary); color: white; padding: 18px; border-radius: 18px; border: none; font-weight: 800; cursor: pointer; }
 
-    /* Popup */
     #popup { position: fixed; top: 25px; left: 50%; transform: translateX(-50%) translateY(-100px); background: var(--secondary); color: white; padding: 14px 28px; border-radius: 50px; font-weight: 700; transition: 0.6s; z-index: 10000; }
     #popup.show { transform: translateX(-50%) translateY(0); }
 
-    /* Bottom Navbar */
     .navbar { position: fixed; bottom: 20px; left: 20px; right: 20px; background: rgba(255,255,255,0.9); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 12px; border-radius: 24px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); border: 1px solid rgba(255,255,255,0.5); z-index: 999; }
     .nav-btn { background: none; border: none; color: #A0AEC0; display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 10px; font-weight: 700; flex: 1; transition: 0.3s; cursor: pointer; }
     .nav-btn i { font-size: 26px; }
@@ -108,10 +99,7 @@
 <div class="app">
   <div class="topbar">
     <div class="brand">
-      <div class="logo-box">
-        <div class="l-red"></div><div class="l-blue"></div>
-        <div class="l-yellow"></div><div class="l-green"></div>
-      </div>
+      <img src="https://cdn-icons-png.flaticon.com/512/2622/2622649.png" alt="Logo" class="app-logo">
       <div class="logo-text">Retire<span>Path</span></div>
     </div>
     <div id="age-header" class="age-pill">Usia 25 — Bulan 1</div>
@@ -271,7 +259,6 @@
     if(charts.real) charts.real.destroy();
     charts.real = new Chart(document.getElementById('realChart'), { type: 'line', data: { labels, datasets: [{ data: realData, borderColor: '#1D9E75', backgroundColor: 'rgba(29, 158, 117, 0.1)', fill: true, tension: 0.4 }]}, options: opts });
 
-    // Pie Charts
     const colors = ['#534AB7', '#1D9E75', '#F59E0B', '#E53E3E'];
     const stocks = ['BMRI', 'BBRI', 'TLKM', 'BBCA'];
     if(charts.p1) charts.p1.destroy();

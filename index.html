@@ -4,8 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>RetirePath - Smart Tracker</title>
+
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#534AB7">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="RetirePath">
+  <link rel="apple-touch-icon" href="icon-192.png">
   
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   
   <style>
@@ -24,13 +31,21 @@
     body { background-color: var(--bg); color: var(--text); padding-bottom: 110px; overflow-x: hidden; }
     .app { max-width: 500px; margin: 0 auto; padding: 16px; }
 
-    /* Header */
+    /* Topbar & Logo Grid */
     .topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
-    .logo { font-size: 20px; font-weight: 800; color: var(--primary); display: flex; align-items: center; gap: 8px; }
-    .logo span { color: var(--secondary); }
+    .brand { display: flex; align-items: center; gap: 10px; }
+    .logo-box { 
+      width: 30px; height: 30px; border-radius: 6px; overflow: hidden;
+      display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    }
+    .l-red { background: #F44336; } .l-blue { background: #2196F3; }
+    .l-yellow { background: #FFEB3B; } .l-green { background: #4CAF50; }
+    .logo-text { font-size: 20px; font-weight: 800; color: var(--primary); }
+    .logo-text span { color: var(--secondary); }
     .age-pill { background: #fff; color: var(--primary); font-size: 11px; font-weight: 700; padding: 6px 14px; border-radius: 50px; border: 1px solid #E2E8F0; }
 
-    /* Dashboard Hero */
+    /* Dashboard Hero (Sesuai Gambar) */
     .hero-card { 
       background: var(--primary-gradient); 
       border-radius: 24px; padding: 24px; color: white; margin-bottom: 16px; 
@@ -48,56 +63,42 @@
     .moto-box i { color: var(--primary); font-size: 22px; }
     #moto-text { font-size: 12px; font-weight: 600; color: var(--text); transition: opacity 0.5s; line-height: 1.4; }
 
-    /* Grid Stats */
+    /* Stat Grid */
     .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
     .stat-card { background: #fff; padding: 16px 8px; border-radius: 20px; text-align: center; box-shadow: var(--shadow); }
     .stat-label { font-size: 10px; color: var(--text-muted); font-weight: 700; text-transform: uppercase; margin-bottom: 6px; }
     .stat-val { font-size: 18px; font-weight: 800; color: var(--primary); }
 
-    /* Sections */
+    /* Sections & Cards */
     .sec-label { font-size: 15px; font-weight: 800; margin: 26px 0 14px; display: flex; align-items: center; gap: 10px; }
     .card { background: #fff; padding: 20px; border-radius: 24px; box-shadow: var(--shadow); margin-bottom: 16px; }
 
     /* Milestone List */
-    .ms-item { display: flex; align-items: center; gap: 15px; background: #fff; padding: 18px; border-radius: 22px; margin-bottom: 12px; transition: 0.3s; box-shadow: var(--shadow); }
+    .ms-item { display: flex; align-items: center; gap: 15px; background: #fff; padding: 18px; border-radius: 22px; margin-bottom: 12px; box-shadow: var(--shadow); }
     .ms-icon-wrap { width: 46px; height: 46px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 22px; }
-    .ms-done { background: #fff; border: 1px solid #E1F5EE; } .ms-done .ms-icon-wrap { background: var(--secondary); color: #fff; }
+    .ms-done { border: 1px solid #E1F5EE; } .ms-done .ms-icon-wrap { background: var(--secondary); color: #fff; }
     .ms-locked { opacity: 0.6; background: #F9FAFB; } .ms-locked .ms-icon-wrap { background: #E2E8F0; color: #A0AEC0; }
-    .ms-title { font-size: 14px; font-weight: 700; margin-bottom: 3px; }
-    .ms-meta { font-size: 11px; color: var(--text-muted); font-weight: 500; }
-
-    /* Profile List */
+    
+    /* Profile Row & Form */
     .p-row { display: flex; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid #F1F5F9; }
-    .p-row:last-child { border: none; }
-    .p-label { color: var(--text-muted); font-size: 13px; font-weight: 500; }
-    .p-val { font-weight: 700; font-size: 14px; color: var(--primary); }
-
-    /* Form Inputs */
-    .input-group label { display: block; font-size: 11px; font-weight: 800; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .input-group label { display: block; font-size: 11px; font-weight: 800; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; }
     input { width: 100%; padding: 14px; border: 1px solid #E2E8F0; border-radius: 14px; font-size: 14px; background: #F8FAFC; margin-bottom: 15px; font-weight: 600; }
-    input:focus { border-color: var(--primary); outline: none; background: #fff; }
-    .btn-save { width: 100%; background: var(--primary); color: white; padding: 18px; border-radius: 18px; border: none; font-weight: 800; cursor: pointer; box-shadow: 0 8px 20px rgba(83, 74, 183, 0.3); }
+    .btn-save { width: 100%; background: var(--primary); color: white; padding: 18px; border-radius: 18px; border: none; font-weight: 800; cursor: pointer; }
 
     /* Popup */
-    #popup { 
-      position: fixed; top: 25px; left: 50%; transform: translateX(-50%) translateY(-100px);
-      background: var(--secondary); color: white; padding: 14px 28px; border-radius: 50px; 
-      font-weight: 700; font-size: 14px; transition: 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-      z-index: 10000; box-shadow: 0 10px 25px rgba(29, 158, 117, 0.3);
-    }
+    #popup { position: fixed; top: 25px; left: 50%; transform: translateX(-50%) translateY(-100px); background: var(--secondary); color: white; padding: 14px 28px; border-radius: 50px; font-weight: 700; transition: 0.6s; z-index: 10000; }
     #popup.show { transform: translateX(-50%) translateY(0); }
 
-    /* Navbar */
-    .navbar { position: fixed; bottom: 20px; left: 20px; right: 20px; background: rgba(255,255,255,0.9); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 12px; border-radius: 24px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); border: 1px solid rgba(255,255,255,0.5); }
-    .nav-btn { background: none; border: none; color: #A0AEC0; display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 10px; font-weight: 700; flex: 1; transition: 0.3s; }
+    /* Bottom Navbar */
+    .navbar { position: fixed; bottom: 20px; left: 20px; right: 20px; background: rgba(255,255,255,0.9); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 12px; border-radius: 24px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); border: 1px solid rgba(255,255,255,0.5); z-index: 999; }
+    .nav-btn { background: none; border: none; color: #A0AEC0; display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 10px; font-weight: 700; flex: 1; transition: 0.3s; cursor: pointer; }
     .nav-btn i { font-size: 26px; }
     .nav-btn.active { color: var(--primary); }
 
     .tab-content { display: none; animation: fadeIn 0.4s ease; }
     .tab-content.active { display: block; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-    
-    .chart-box { width: 100%; height: 200px; margin: 10px 0; }
+    .chart-box { width: 100%; height: 200px; }
   </style>
 </head>
 <body>
@@ -106,7 +107,13 @@
 
 <div class="app">
   <div class="topbar">
-    <div class="logo"><i class='bx bxs-layer'></i> Retire<span>Path</span></div>
+    <div class="brand">
+      <div class="logo-box">
+        <div class="l-red"></div><div class="l-blue"></div>
+        <div class="l-yellow"></div><div class="l-green"></div>
+      </div>
+      <div class="logo-text">Retire<span>Path</span></div>
+    </div>
     <div id="age-header" class="age-pill">Usia 25 — Bulan 1</div>
   </div>
 
@@ -145,14 +152,9 @@
 
   <div id="tab-chart" class="tab-content">
     <div class="sec-label"><i class='bx bx-bullseye'></i> Grafik Target (Ideal)</div>
-    <div class="card">
-      <div class="chart-box"><canvas id="targetChart"></canvas></div>
-    </div>
-    
+    <div class="card"><div class="chart-box"><canvas id="targetChart"></canvas></div></div>
     <div class="sec-label"><i class='bx bx-line-chart-down'></i> Grafik Riil (Sekarang)</div>
-    <div class="card">
-      <div class="chart-box"><canvas id="realChart"></canvas></div>
-    </div>
+    <div class="card"><div class="chart-box"><canvas id="realChart"></canvas></div></div>
   </div>
 
   <div id="tab-porto" class="tab-content">
@@ -204,32 +206,34 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
+  // PWA Service Worker Registration
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js').then(() => console.log('SW Active'));
+    });
+  }
+
   const MOTIVASI = [
-    "Kekayaan bukan tentang berapa banyak uang yang kamu hasilkan, tapi berapa banyak yang kamu simpan.",
-    "Pasar saham adalah alat untuk mentransfer uang dari yang tidak sabar ke yang sabar.",
+    "Kekayaan adalah hasil dari kesabaran yang disiplin.",
+    "Pasar saham adalah alat transfer uang dari yang tidak sabar ke yang sabar.",
     "Jangan menabung apa yang tersisa, tapi belanjakan apa yang tersisa setelah menabung.",
-    "Waktu terbaik untuk menanam pohon adalah 20 tahun lalu. Waktu terbaik kedua adalah sekarang.",
-    "Investasi pada pengetahuan memberikan bunga terbaik."
+    "Waktu terbaik menanam pohon adalah 20 tahun lalu. Waktu terbaik kedua adalah sekarang."
   ];
 
   const MILESTONES = [
     { a: 23, l: 20, al: { BMRI: 60, BBRI: 40, TLKM: 0, BBCA: 0 } },
     { a: 24, l: 40, al: { BMRI: 60, BBRI: 40, TLKM: 0, BBCA: 0 } },
     { a: 25, l: 70, al: { BMRI: 55, BBRI: 45, TLKM: 0, BBCA: 0 } },
-    { a: 26, l: 110, al: { BMRI: 50, BBRI: 50, TLKM: 0, BBCA: 0 } },
-    { a: 27, l: 160, al: { BMRI: 45, BBRI: 45, TLKM: 10, BBCA: 0 } },
-    { a: 28, l: 220, al: { BMRI: 45, BBRI: 45, TLKM: 10, BBCA: 0 } },
-    { a: 29, l: 300, al: { BMRI: 40, BBRI: 40, TLKM: 15, BBCA: 5 } },
     { a: 30, l: 400, al: { BMRI: 40, BBRI: 35, TLKM: 15, BBCA: 10 } },
     { a: 40, l: 1500, al: { BMRI: 30, BBRI: 25, TLKM: 35, BBCA: 10 } }
   ];
 
-  let state = JSON.parse(localStorage.getItem('retire_final')) || { age: 25, month: 1, bmri: 0, bbri: 0, tlkm: 0, bbca: 0 };
+  let state = JSON.parse(localStorage.getItem('retire_final_pwa')) || { age: 25, month: 1, bmri: 0, bbri: 0, tlkm: 0, bbca: 0 };
   let charts = {};
 
   function update() {
     const total = state.bmri + state.bbri + state.tlkm + state.bbca;
-    const tgt = MILESTONES.find(m => m.a === state.age) || MILESTONES[0];
+    const tgt = MILESTONES.find(m => m.a === state.age) || MILESTONES.find(m => m.a > state.age) || MILESTONES[0];
     const prevTgt = (MILESTONES[MILESTONES.findIndex(m=>m.a===state.age)-1]?.l) || 0;
     
     document.getElementById('age-header').innerText = `Usia ${state.age} — Bulan ${state.month}`;
@@ -242,57 +246,38 @@
     document.getElementById('prof-age').innerText = state.age;
     document.getElementById('prof-total').innerText = total + " Lot";
 
-    renderAllCharts(total, prevTgt, tgt);
+    renderCharts(total, prevTgt, tgt);
     renderMilestones(total, state.age);
   }
 
-  function renderAllCharts(total, prev, tgt) {
+  function renderCharts(total, prev, tgt) {
     const labels = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
     const targetData = Array.from({length:12}, (_,i)=> Math.round(prev+((tgt.l-prev)/12)*(i+1)));
     const realData = Array.from({length:state.month}, ()=> total);
+    const opts = { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { display: false }, x: { grid: { display: false } } } };
 
-    const chartOptions = { 
-      responsive: true, maintainAspectRatio: false, 
-      plugins: { legend: { display: false } },
-      scales: { y: { display: false }, x: { grid: { display: false } } }
-    };
-
-    // Home Chart (Combined)
     if(charts.home) charts.home.destroy();
     charts.home = new Chart(document.getElementById('homeChart'), {
       type: 'line',
       data: { labels, datasets: [
         { label: 'Target', data: targetData, borderColor: '#534AB7', borderDash: [5,5], pointRadius: 0, fill: false },
         { label: 'Riil', data: realData, borderColor: '#1D9E75', backgroundColor: 'rgba(29, 158, 117, 0.1)', fill: true, tension: 0.4 }
-      ]},
-      options: chartOptions
+      ]}, options: opts
     });
 
-    // Target Chart (Grafik Terpisah Atas)
     if(charts.target) charts.target.destroy();
-    charts.target = new Chart(document.getElementById('targetChart'), {
-      type: 'line',
-      data: { labels, datasets: [{ data: targetData, borderColor: '#534AB7', backgroundColor: 'rgba(83, 74, 183, 0.1)', fill: true, tension: 0.4, pointRadius: 2 }]},
-      options: chartOptions
-    });
+    charts.target = new Chart(document.getElementById('targetChart'), { type: 'line', data: { labels, datasets: [{ data: targetData, borderColor: '#534AB7', backgroundColor: 'rgba(83, 74, 183, 0.1)', fill: true, tension: 0.4 }]}, options: opts });
 
-    // Real Chart (Grafik Terpisah Bawah)
     if(charts.real) charts.real.destroy();
-    charts.real = new Chart(document.getElementById('realChart'), {
-      type: 'line',
-      data: { labels, datasets: [{ data: realData, borderColor: '#1D9E75', backgroundColor: 'rgba(29, 158, 117, 0.1)', fill: true, tension: 0.4, pointRadius: 4 }]},
-      options: chartOptions
-    });
+    charts.real = new Chart(document.getElementById('realChart'), { type: 'line', data: { labels, datasets: [{ data: realData, borderColor: '#1D9E75', backgroundColor: 'rgba(29, 158, 117, 0.1)', fill: true, tension: 0.4 }]}, options: opts });
 
-    // Pies & List
-    const stocks = ['BMRI', 'BBRI', 'TLKM', 'BBCA'];
+    // Pie Charts
     const colors = ['#534AB7', '#1D9E75', '#F59E0B', '#E53E3E'];
-    
+    const stocks = ['BMRI', 'BBRI', 'TLKM', 'BBCA'];
     if(charts.p1) charts.p1.destroy();
-    charts.p1 = new Chart(document.getElementById('pieReal'), { type: 'doughnut', data: { labels: stocks, datasets: [{ data: [state.bmri, state.bbri, state.tlkm, state.bbca], backgroundColor: colors }] }, options: { plugins: { legend: { display: false } }, cutout: '70%' }});
-
+    charts.p1 = new Chart(document.getElementById('pieReal'), { type: 'doughnut', data: { labels: stocks, datasets: [{ data: [state.bmri, state.bbri, state.tlkm, state.bbca], backgroundColor: colors }] }, options: { cutout: '70%', plugins: { legend: { display: false } } }});
     if(charts.p2) charts.p2.destroy();
-    charts.p2 = new Chart(document.getElementById('pieTarget'), { type: 'doughnut', data: { labels: stocks, datasets: [{ data: [tgt.al.BMRI, tgt.al.BBRI, tgt.al.TLKM, tgt.al.BBCA], backgroundColor: colors }] }, options: { plugins: { legend: { display: false } }, cutout: '70%' }});
+    charts.p2 = new Chart(document.getElementById('pieTarget'), { type: 'doughnut', data: { labels: stocks, datasets: [{ data: [tgt.al.BMRI, tgt.al.BBRI, tgt.al.TLKM, tgt.al.BBCA], backgroundColor: colors }] }, options: { cutout: '70%', plugins: { legend: { display: false } } }});
 
     let html = "";
     stocks.forEach(s => html += `<div class="p-row"><span class="p-label">${s}</span> <span class="p-val">${state[s.toLowerCase()]} Lot (${tgt.al[s]}%)</span></div>`);
@@ -303,14 +288,11 @@
     let html = "";
     MILESTONES.forEach(m => {
       const isDone = total >= m.l || m.a < currAge;
-      html += `
-        <div class="ms-item ${isDone ? 'ms-done' : 'ms-locked'}">
+      html += `<div class="ms-item ${isDone ? 'ms-done' : 'ms-locked'}">
           <div class="ms-icon-wrap"><i class='bx ${isDone ? 'bx-check-double' : 'bx-lock-alt'}'></i></div>
           <div class="ms-content">
-            <div class="ms-title">Usia ${m.a} - ${m.l} Lot</div>
-            <div class="ms-meta">BMRI ${m.al.BMRI}% • BBRI ${m.al.BBRI}%</div>
+            <div style="font-size:14px; font-weight:700">Usia ${m.a} - ${m.l} Lot</div>
           </div>
-          <div style="font-size: 10px; font-weight: 800; color: ${isDone ? 'var(--secondary)' : '#CBD5E0'}">${isDone ? 'TERCAPAI' : 'TERKUNCI'}</div>
         </div>`;
     });
     document.getElementById('milestone-container').innerHTML = html;
@@ -333,26 +315,23 @@
       tlkm: parseInt(document.getElementById('i-tlkm').value) || 0,
       bbca: parseInt(document.getElementById('i-bbca').value) || 0
     };
-    localStorage.setItem('retire_final', JSON.stringify(state));
+    localStorage.setItem('retire_final_pwa', JSON.stringify(state));
     update();
     const p = document.getElementById('popup');
     p.classList.add('show');
     setTimeout(() => p.classList.remove('show'), 3000);
   }
 
-  let motoIdx = 0;
-  function rotateMoto() {
+  setInterval(() => {
     const el = document.getElementById('moto-text');
     el.style.opacity = 0;
     setTimeout(() => {
-      el.innerText = MOTIVASI[motoIdx];
+      el.innerText = MOTIVASI[Math.floor(Math.random() * MOTIVASI.length)];
       el.style.opacity = 1;
-      motoIdx = (motoIdx + 1) % MOTIVASI.length;
     }, 500);
-  }
-  setInterval(rotateMoto, 6000);
-  rotateMoto();
+  }, 6000);
 
+  // Init
   document.getElementById('i-age').value = state.age;
   document.getElementById('i-month').value = state.month;
   document.getElementById('i-bmri').value = state.bmri;

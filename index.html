@@ -32,43 +32,29 @@
     body { background-color: var(--bg); color: var(--text); padding-bottom: 110px; overflow-x: hidden; }
     .app { max-width: 500px; margin: 0 auto; padding: 16px; }
 
-    /* Topbar & Logo */
     .topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
-    .brand { display: flex; align-items: center; gap: 8px; }
+    .brand { display: flex; align-items: center; gap: 10px; }
     
-    /* Ikon Roket di Dashboard */
+    /* Style Ikon Roket */
     .rocket-icon { 
-      font-size: 28px; 
-      color: var(--primary); 
-      background: #fff; 
-      width: 40px; height: 40px; 
-      display: flex; align-items: center; justify-content: center; 
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(83, 74, 183, 0.15);
+      font-size: 24px; color: var(--primary); background: #fff; 
+      width: 36px; height: 36px; display: flex; align-items: center; 
+      justify-content: center; border-radius: 10px; box-shadow: 0 3px 8px rgba(0,0,0,0.1);
     }
 
     .logo-text { font-size: 20px; font-weight: 800; color: var(--primary); }
     .logo-text span { color: var(--secondary); }
     .age-pill { background: #fff; color: var(--primary); font-size: 11px; font-weight: 700; padding: 6px 14px; border-radius: 50px; border: 1px solid #E2E8F0; }
 
-    /* Dashboard Hero */
     .hero-card { 
       background: var(--primary-gradient); 
       border-radius: 24px; padding: 24px; color: white; margin-bottom: 16px; 
       box-shadow: 0 15px 30px rgba(83, 74, 183, 0.25);
-      position: relative; overflow: hidden;
     }
-    /* Dekorasi roket samar di background hero */
-    .hero-card::after {
-      content: '\eb8b'; font-family: 'boxicons'; position: absolute;
-      right: -10px; bottom: -10px; font-size: 100px; opacity: 0.1; transform: rotate(-15deg);
-    }
-
     .hero-label { font-size: 13px; opacity: 0.8; margin-bottom: 4px; font-weight: 500; }
     .hero-val { font-size: 42px; font-weight: 800; margin-bottom: 10px; }
     .hero-sub { font-size: 11px; background: rgba(255,255,255,0.2); padding: 8px 14px; border-radius: 12px; display: inline-block; font-weight: 600; }
 
-    /* Motivasi */
     .moto-box { 
       background: #fff; padding: 14px 18px; border-radius: 18px; margin-bottom: 20px;
       display: flex; align-items: center; gap: 12px; border-left: 5px solid var(--primary); box-shadow: var(--shadow);
@@ -76,7 +62,6 @@
     .moto-box i { color: var(--primary); font-size: 22px; }
     #moto-text { font-size: 12px; font-weight: 600; color: var(--text); transition: opacity 0.5s; line-height: 1.4; }
 
-    /* Stat Grid */
     .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
     .stat-card { background: #fff; padding: 16px 8px; border-radius: 20px; text-align: center; box-shadow: var(--shadow); }
     .stat-label { font-size: 10px; color: var(--text-muted); font-weight: 700; text-transform: uppercase; margin-bottom: 6px; }
@@ -85,7 +70,6 @@
     .sec-label { font-size: 15px; font-weight: 800; margin: 26px 0 14px; display: flex; align-items: center; gap: 10px; }
     .card { background: #fff; padding: 20px; border-radius: 24px; box-shadow: var(--shadow); margin-bottom: 16px; }
 
-    /* Milestone List */
     .ms-item { display: flex; align-items: center; gap: 15px; background: #fff; padding: 18px; border-radius: 22px; margin-bottom: 12px; box-shadow: var(--shadow); }
     .ms-icon-wrap { width: 46px; height: 46px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 22px; }
     .ms-done { border: 1px solid #E1F5EE; } .ms-done .ms-icon-wrap { background: var(--secondary); color: #fff; }
@@ -117,9 +101,7 @@
 <div class="app">
   <div class="topbar">
     <div class="brand">
-      <div class="rocket-icon">
-        <i class='bx bxs-rocket'></i>
-      </div>
+      <div class="rocket-icon"><i class='bx bxs-rocket'></i></div>
       <div class="logo-text">Retire<span>Path</span></div>
     </div>
     <div id="age-header" class="age-pill">Usia 25 — Bulan 1</div>
@@ -227,6 +209,7 @@
     "Waktu terbaik menanam pohon adalah 20 tahun lalu. Waktu terbaik kedua adalah sekarang."
   ];
 
+  // DATA MILESTONE SUDAH DIKEMBALIKAN SESUAI ASLINYA
   const MILESTONES = [
     { a: 23, l: 20, al: { BMRI: 60, BBRI: 40, TLKM: 0, BBCA: 0 } },
     { a: 24, l: 40, al: { BMRI: 60, BBRI: 40, TLKM: 0, BBCA: 0 } },

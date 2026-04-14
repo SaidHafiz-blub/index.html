@@ -9,10 +9,8 @@
   <meta name="theme-color" content="#534AB7">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="RetirePath">
   
   <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/1033/1033058.png">
-  
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   
@@ -35,7 +33,6 @@
     .topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
     .brand { display: flex; align-items: center; gap: 10px; }
     
-    /* Style Ikon Roket */
     .rocket-icon { 
       font-size: 24px; color: var(--primary); background: #fff; 
       width: 36px; height: 36px; display: flex; align-items: center; 
@@ -70,13 +67,15 @@
     .sec-label { font-size: 15px; font-weight: 800; margin: 26px 0 14px; display: flex; align-items: center; gap: 10px; }
     .card { background: #fff; padding: 20px; border-radius: 24px; box-shadow: var(--shadow); margin-bottom: 16px; }
 
-    .ms-item { display: flex; align-items: center; gap: 15px; background: #fff; padding: 18px; border-radius: 22px; margin-bottom: 12px; box-shadow: var(--shadow); }
+    /* Milestone Styles dengan Goal Label */
+    .ms-item { display: flex; align-items: center; justify-content: space-between; background: #fff; padding: 18px; border-radius: 22px; margin-bottom: 12px; box-shadow: var(--shadow); }
+    .ms-left { display: flex; align-items: center; gap: 15px; }
     .ms-icon-wrap { width: 46px; height: 46px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 22px; }
+    .ms-goal-badge { background: var(--secondary); color: white; font-size: 10px; font-weight: 800; padding: 4px 10px; border-radius: 50px; text-transform: uppercase; }
     .ms-done { border: 1px solid #E1F5EE; } .ms-done .ms-icon-wrap { background: var(--secondary); color: #fff; }
     .ms-locked { opacity: 0.6; background: #F9FAFB; } .ms-locked .ms-icon-wrap { background: #E2E8F0; color: #A0AEC0; }
     
     .p-row { display: flex; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid #F1F5F9; }
-    .input-group label { display: block; font-size: 11px; font-weight: 800; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; }
     input { width: 100%; padding: 14px; border: 1px solid #E2E8F0; border-radius: 14px; font-size: 14px; background: #F8FAFC; margin-bottom: 15px; font-weight: 600; }
     .btn-save { width: 100%; background: var(--primary); color: white; padding: 18px; border-radius: 18px; border: none; font-weight: 800; cursor: pointer; }
 
@@ -113,31 +112,14 @@
       <div class="hero-val" id="h-total">0 lot</div>
       <div class="hero-sub" id="h-target-label">Target Akhir Usia 25: 70 lot</div>
     </div>
-
-    <div class="moto-box">
-      <i class='bx bxs-quote-alt-left'></i>
-      <div id="moto-text">Memuat motivasi...</div>
-    </div>
-
+    <div class="moto-box"><i class='bx bxs-quote-alt-left'></i><div id="moto-text">Memuat motivasi...</div></div>
     <div class="stat-grid">
-      <div class="stat-card">
-        <div class="stat-label">Target</div>
-        <div class="stat-val" id="s-target">70</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">Progres</div>
-        <div class="stat-val" id="s-pct">0%</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">Kurang</div>
-        <div class="stat-val" id="s-gap" style="color: #ef4444">0</div>
-      </div>
+      <div class="stat-card"><div class="stat-label">Target</div><div class="stat-val" id="s-target">70</div></div>
+      <div class="stat-card"><div class="stat-label">Progres</div><div class="stat-val" id="s-pct">0%</div></div>
+      <div class="stat-card"><div class="stat-label">Kurang</div><div class="stat-val" id="s-gap" style="color: #ef4444">0</div></div>
     </div>
-
     <div class="sec-label"><i class='bx bx-line-chart'></i> Progres Visual</div>
-    <div class="card">
-      <div class="chart-box"><canvas id="homeChart"></canvas></div>
-    </div>
+    <div class="card"><div class="chart-box"><canvas id="homeChart"></canvas></div></div>
   </div>
 
   <div id="tab-chart" class="tab-content">
@@ -164,22 +146,20 @@
   <div id="tab-profile" class="tab-content">
     <div class="sec-label"><i class='bx bx-user-circle'></i> Informasi Profil</div>
     <div class="card">
-      <div class="p-row"><span class="p-label">Nama Akun</span> <span class="p-val">Investor Saham</span></div>
       <div class="p-row"><span class="p-label">Usia Kejar</span> <span class="p-val" id="prof-age">25</span></div>
       <div class="p-row"><span class="p-label">Total Akumulasi</span> <span class="p-val" id="prof-total">0 Lot</span></div>
     </div>
-
     <div class="sec-label"><i class='bx bx-edit'></i> Update Portofolio</div>
     <div class="card">
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-        <div class="input-group"><label>Usia</label><input type="number" id="i-age"></div>
-        <div class="input-group"><label>Bulan (1-12)</label><input type="number" id="i-month"></div>
+        <input type="number" id="i-age" placeholder="Usia">
+        <input type="number" id="i-month" placeholder="Bulan">
       </div>
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-        <div class="input-group"><label>BMRI</label><input type="number" id="i-bmri"></div>
-        <div class="input-group"><label>BBRI</label><input type="number" id="i-bbri"></div>
-        <div class="input-group"><label>TLKM</label><input type="number" id="i-tlkm"></div>
-        <div class="input-group"><label>BBCA</label><input type="number" id="i-bbca"></div>
+        <input type="number" id="i-bmri" placeholder="BMRI">
+        <input type="number" id="i-bbri" placeholder="BBRI">
+        <input type="number" id="i-tlkm" placeholder="TLKM">
+        <input type="number" id="i-bbca" placeholder="BBCA">
       </div>
       <button class="btn-save" onclick="saveData()">Simpan Perubahan</button>
     </div>
@@ -196,20 +176,6 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('sw.js').then(() => console.log('SW Active'));
-    });
-  }
-
-  const MOTIVASI = [
-    "Kekayaan adalah hasil dari kesabaran yang disiplin.",
-    "Pasar saham adalah alat transfer uang dari yang tidak sabar ke yang sabar.",
-    "Jangan menabung apa yang tersisa, tapi belanjakan apa yang tersisa setelah menabung.",
-    "Waktu terbaik menanam pohon adalah 20 tahun lalu. Waktu terbaik kedua adalah sekarang."
-  ];
-
-  // DATA MILESTONE SUDAH DIKEMBALIKAN SESUAI ASLINYA
   const MILESTONES = [
     { a: 23, l: 20, al: { BMRI: 60, BBRI: 40, TLKM: 0, BBCA: 0 } },
     { a: 24, l: 40, al: { BMRI: 60, BBRI: 40, TLKM: 0, BBCA: 0 } },
@@ -237,7 +203,28 @@
     document.getElementById('prof-total').innerText = total + " Lot";
 
     renderCharts(total, prevTgt, tgt);
-    renderMilestones(total, state.age);
+    renderMilestones(total);
+  }
+
+  function renderMilestones(total) {
+    let html = "";
+    MILESTONES.forEach(m => {
+      // LOGIKA: Jika total aset >= target milestone, tampilkan label GOAL
+      const isAchieved = total >= m.l;
+      const isPastAge = state.age > m.a;
+      
+      html += `
+        <div class="ms-item ${isAchieved || isPastAge ? 'ms-done' : 'ms-locked'}">
+          <div class="ms-left">
+            <div class="ms-icon-wrap"><i class='bx ${isAchieved ? 'bx-check-double' : (isPastAge ? 'bx-history' : 'bx-lock-alt')}'></i></div>
+            <div class="ms-content">
+              <div style="font-size:14px; font-weight:700">Usia ${m.a} - ${m.l} Lot</div>
+            </div>
+          </div>
+          ${isAchieved ? '<div class="ms-goal-badge">Goal</div>' : ''}
+        </div>`;
+    });
+    document.getElementById('milestone-container').innerHTML = html;
   }
 
   function renderCharts(total, prev, tgt) {
@@ -247,7 +234,7 @@
     const opts = { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { display: false }, x: { grid: { display: false } } } };
 
     if(charts.home) charts.home.destroy();
-    charts.home = new Chart(document.getElementById('homeChart'), {
+    charts.home = new Chart(document.getElementById('homeChart').getContext('2d'), {
       type: 'line',
       data: { labels, datasets: [
         { label: 'Target', data: targetData, borderColor: '#534AB7', borderDash: [5,5], pointRadius: 0, fill: false },
@@ -273,26 +260,11 @@
     document.getElementById('porto-list').innerHTML = html;
   }
 
-  function renderMilestones(total, currAge) {
-    let html = "";
-    MILESTONES.forEach(m => {
-      const isDone = total >= m.l || m.a < currAge;
-      html += `<div class="ms-item ${isDone ? 'ms-done' : 'ms-locked'}">
-          <div class="ms-icon-wrap"><i class='bx ${isDone ? 'bx-check-double' : 'bx-lock-alt'}'></i></div>
-          <div class="ms-content">
-            <div style="font-size:14px; font-weight:700">Usia ${m.a} - ${m.l} Lot</div>
-          </div>
-        </div>`;
-    });
-    document.getElementById('milestone-container').innerHTML = html;
-  }
-
   function switchTab(id, btn) {
     document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
     document.getElementById('tab-' + id).classList.add('active');
     document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    window.scrollTo(0,0);
   }
 
   function saveData() {
@@ -311,21 +283,6 @@
     setTimeout(() => p.classList.remove('show'), 3000);
   }
 
-  setInterval(() => {
-    const el = document.getElementById('moto-text');
-    el.style.opacity = 0;
-    setTimeout(() => {
-      el.innerText = MOTIVASI[Math.floor(Math.random() * MOTIVASI.length)];
-      el.style.opacity = 1;
-    }, 500);
-  }, 6000);
-
-  document.getElementById('i-age').value = state.age;
-  document.getElementById('i-month').value = state.month;
-  document.getElementById('i-bmri').value = state.bmri;
-  document.getElementById('i-bbri').value = state.bbri;
-  document.getElementById('i-tlkm').value = state.tlkm;
-  document.getElementById('i-bbca').value = state.bbca;
   update();
 </script>
 </body>

@@ -3,14 +3,14 @@
   "name": "RetirePath - Smart Tracker",
   "icons": [
     {
-      "src": "icon-192.png",
-      "type": "image/png",
-      "sizes": "192x192"
-    },
-    {
-      "src": "icon-512.png",
+      "src": "https://cdn-icons-png.flaticon.com/512/2622/2622649.png",
       "type": "image/png",
       "sizes": "512x512"
+    },
+    {
+      "src": "https://cdn-icons-png.flaticon.com/192/2622/2622649.png",
+      "type": "image/png",
+      "sizes": "192x192"
     }
   ],
   "start_url": "./index.html",
